@@ -18,15 +18,15 @@ public class AlphaService {
     @Autowired
     private AlphaDao alphaDao;
     public AlphaService(){
-        System.out.println("实例化AlphaService");
+
     }
     @PostConstruct
     public void inial(){
-        System.out.println("初始化AlphaService");
+
     }
     @PreDestroy
     public void destroy(){
-        System.out.println("销毁AlphaService");
+
     }
 
     public String select(){

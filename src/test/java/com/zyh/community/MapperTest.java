@@ -1,9 +1,12 @@
 package com.zyh.community;
 
 import com.zyh.community.dao.DiscussPostMapper;
+import com.zyh.community.dao.LoginTicketMapper;
 import com.zyh.community.dao.UserMapper;
 import com.zyh.community.entity.DiscussPost;
+import com.zyh.community.entity.LoginTicket;
 import com.zyh.community.entity.User;
+import com.zyh.community.until.CommunityUnity;
 import org.apache.ibatis.annotations.Mapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,8 @@ import java.util.List;
 @SpringBootTest
 @ContextConfiguration(classes =  CommunityApplication.class)
 public class MapperTest {
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -53,5 +58,21 @@ public class MapperTest {
         for(DiscussPost d : list)
             System.out.println(d);
         System.out.println(discussPostMapper.selectDiscussPostRow(149));
+    }
+    @Test
+    public void testLoginTicket(){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setExpired(new Date());
+        loginTicket.setStatus(0);
+        loginTicket.setUserId(102);
+        loginTicket.setTicket("abcd");
+        loginTicketMapper.insertLoginTicket(loginTicket);
+        LoginTicket loginTicket1 = loginTicketMapper.selectByTicket("abcd");
+        System.out.println(loginTicket1);
+        loginTicketMapper.updateStatus("abcd",1);
+    }
+    @Test
+    public void test(){
+        System.out.println(CommunityUnity.md5("123")+"0cbb2");
     }
 }

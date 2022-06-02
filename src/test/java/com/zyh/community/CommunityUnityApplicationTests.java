@@ -18,7 +18,7 @@ import java.util.Date;
 
 @ContextConfiguration(classes = CommunityApplication.class)
 @SpringBootTest
-class CommunityApplicationTests implements ApplicationContextAware {
+class CommunityUnityApplicationTests implements ApplicationContextAware {
 	private ApplicationContext applicationContext;
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
