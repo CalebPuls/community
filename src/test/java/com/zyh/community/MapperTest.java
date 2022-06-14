@@ -2,9 +2,11 @@ package com.zyh.community;
 
 import com.zyh.community.dao.DiscussPostMapper;
 import com.zyh.community.dao.LoginTicketMapper;
+import com.zyh.community.dao.MessageMapper;
 import com.zyh.community.dao.UserMapper;
 import com.zyh.community.entity.DiscussPost;
 import com.zyh.community.entity.LoginTicket;
+import com.zyh.community.entity.Message;
 import com.zyh.community.entity.User;
 import com.zyh.community.until.CommunityUnity;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author
@@ -31,6 +32,8 @@ public class MapperTest {
     private UserMapper userMapper;
     @Autowired
     private DiscussPostMapper discussPostMapper;
+    @Autowired
+    private MessageMapper messageMapper;
     @Test
     public void  testSelect(){
         System.out.println(userMapper.selectById(101));
@@ -72,7 +75,31 @@ public class MapperTest {
         loginTicketMapper.updateStatus("abcd",1);
     }
     @Test
-    public void test(){
-        System.out.println(CommunityUnity.md5("123")+"0cbb2");
+    public void testInsertDiscussPost(){
+
+        DiscussPost discussPost = new DiscussPost();
+        discussPost.setCommentCount(8);
+        discussPost.setContent("测试discussPostMapper.insertDiscussPost()");
+        discussPost.setCreateTime(new Date());
+        discussPost.setUserId(164);
+        discussPost.setTitle("test");
+        discussPost.setStatus(0);
+        discussPost.setType(0);
+        discussPost.setScore(8);
+        discussPostMapper.insertDiscussPost(discussPost);
+    }
+    @Test
+    public void testSelectDiscussPostById(){
+        System.out.println(discussPostMapper.selectDiscussPostById(285));
+    }
+
+    @Test
+    public void testSelectMessage(){
+        List<Message> messages = messageMapper.selectLetters("111_112",0,20);
+        for (Message m : messages){
+            System.out.println(m);
+        }
+        System.out.println(messageMapper.selectLetterCount("111_112"));
+        System.out.println(messageMapper.selectLetterUnreadCount(131,null));
     }
 }

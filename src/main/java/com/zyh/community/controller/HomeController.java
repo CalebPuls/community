@@ -4,7 +4,9 @@ import com.zyh.community.entity.DiscussPost;
 import com.zyh.community.entity.Page;
 import com.zyh.community.entity.User;
 import com.zyh.community.service.DiscussPostService;
+import com.zyh.community.service.LikeService;
 import com.zyh.community.service.UserService;
+import com.zyh.community.until.CommunityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Controller;
@@ -20,11 +22,13 @@ import java.util.*;
  * @create 2022-05-16 19:38
  */
 @Controller
-public class HomeController {
+public class HomeController implements CommunityConstant{
     @Autowired
     private UserService userService;
     @Autowired
     private DiscussPostService discussPostService;
+    @Autowired
+    private LikeService likeService;
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String getIndexPage(Model model, Page page){
         //方法调用前，SpringMvc会自动实列化model和page，并将page注入到model中
@@ -38,10 +42,16 @@ public class HomeController {
             Map<String,Object> map = new HashMap<>();
             map.put("post",d);
             map.put("user",user);
+            long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST,d.getId());
+            map.put("likeCount",likeCount);
             res.add(map);
         }
-
         model.addAttribute("discussPosts",res);
-        return "/index.html";
+        return "/index";
+    }
+
+    @RequestMapping(path = "/error",method = RequestMethod.GET)
+    public String getErrorPage(){
+        return "/error/500";
     }
 }

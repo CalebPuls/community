@@ -1,8 +1,12 @@
 package com.zyh.community.until;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
 
+import javax.crypto.interfaces.PBEKey;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -20,4 +24,29 @@ public class CommunityUnity {
         if (StringUtils.isAllBlank(key))return null;
         return DigestUtils.md5DigestAsHex(key.getBytes());
     }
+
+    public static String getJSONString(int code, String msg, Map<String,Object> map){
+        JSONObject json = new JSONObject();
+        json.put("code",code);
+        json.put("msg",msg);
+        if (map != null){
+            for (String key : map.keySet()){
+                json.put(key,map.get(key));
+            }
+        }
+        return json.toJSONString();
+    }
+    public static String getJSONString(int code, String msg){
+        return getJSONString(code,msg,null);
+    }
+    public static String getJSONString(int code){
+        return getJSONString(code,null,null);
+    }
+
+//    public static void main(String[] args) {
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("name","张三");
+//        map.put("age",18);
+//        System.out.println(getJSONString(0,"ok",map));
+//    }
 }

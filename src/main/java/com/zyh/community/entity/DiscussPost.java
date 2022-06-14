@@ -12,11 +12,11 @@ public class DiscussPost {
     private int userId;
     private String title;
     private String content;
-    private int type;
-    private int status;
+    private int type = 0;
+    private int status = 0;
     private Date createTime;
-    private int commentCount;
-    private double score;
+    private int commentCount = 0;
+    private double score = 0;
 
     public DiscussPost() {
     }
